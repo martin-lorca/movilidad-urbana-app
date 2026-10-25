@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Encabezado App -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_app"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1B5E20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtitle_app"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Tarjeta de Saldo de Puntos -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#E8F5E9"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_active"
+                    android:textSize="14sp"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPuntosAcumulados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loading_points"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="#1B5E20"
+                    android:layout_marginTop="6dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Formulario Registro de Viajes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_register_trip"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_distance"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDistancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:contentDescription="@string/hint_distance"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_transport_medium"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etIdMedio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:contentDescription="@string/hint_transport_medium"
+                android:text="@string/default_medium_id"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnRegistrarViaje"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="@string/btn_register_trip"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2E7D32"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Sección de Canjes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_redeem_rewards"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnCanjearDescuento"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/btn_redeem_discount"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#EF6C00"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnCanjearPase"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/btn_redeem_pass"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#D84315"
+            app:cornerRadius="10dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EcoMobility</string>
+    <string name="title_app">EcoMobility App</string>
+    <string name="subtitle_app">Sistema de Movilidad Sostenible</string>
+    <string name="user_active">Usuario Activo: Ana Gómez</string>
+    <string name="loading_points">Consultando Puntos...</string>
+    <string name="title_register_trip">Registrar Nuevo Viaje</string>
+    <string name="hint_distance">Distancia Recorrida (KM)</string>
+    <string name="hint_transport_medium">ID Medio (1: Bici, 2: Scooter, 3: Metro)</string>
+    <string name="default_medium_id">1</string>
+    <string name="btn_register_trip">REGISTRAR VIAJE (ACTIVAR TRIGGER)</string>
+    <string name="title_redeem_rewards">Canjear Recompensas</string>
+    <string name="btn_redeem_discount">Descuento 20% Red Transporte (100 Pts)</string>
+    <string name="btn_redeem_pass">Pase Mensual Bicicleta Pública (300 Pts)</string>
+</resources>
