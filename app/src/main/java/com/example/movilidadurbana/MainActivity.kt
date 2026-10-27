@@ -15,17 +15,23 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val idUsuarioSesion = 1 // Usuario ID 1 (Ana Gómez)
+    private var idUsuarioSesion = 1
+    private var nombreUsuarioSesion = "Usuario"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 1. Consultar saldo inicial al abrir la app (requiere red)
+        // Obtener datos del usuario autenticado
+        idUsuarioSesion = intent.getIntExtra("EXTRA_ID_USUARIO", 1)
+        nombreUsuarioSesion = intent.getStringExtra("EXTRA_NOMBRE_USUARIO") ?: "Usuario"
+
+        // Actualizar saludo
+        binding.tvPuntosAcumulados.text = getString(R.string.loading_points)
+
         obtenerPuntosServidor()
 
-        // 2. Evento Registrar Viaje (valida red, calcula/procesa distancia y dispara TRIGGER en Oracle)
         binding.btnRegistrarViaje.setOnClickListener {
             val distanciaInput = binding.etDistancia.text.toString()
             val medioInput = binding.etIdMedio.text.toString()
@@ -34,8 +40,6 @@ class MainActivity : AppCompatActivity() {
                 val distanciaManual = distanciaInput.toDouble()
                 val idMedio = medioInput.toInt()
 
-                // Ejemplo de cálculo de coordenadas GPS fijas (Simulación Origen-Destino)
-                // Coordenadas ej: Plaza de Armas a Parque Forestal (~1.5 km en línea recta)
                 val latOrigen = -33.4372
                 val lngOrigen = -70.6506
                 val latDestino = -33.4350
@@ -45,30 +49,20 @@ class MainActivity : AppCompatActivity() {
                     latOrigen, lngOrigen, latDestino, lngDestino
                 )
 
-                // Si el usuario ingresó un valor se usa ese, de lo contrario se toma el del GPS
                 val distanciaFinal = if (distanciaManual > 0) distanciaManual else distanciaCalculadaGps
-
                 registrarViajeEnOracle(idMedio, distanciaFinal)
             } else {
                 Toast.makeText(this, "Complete la distancia y el medio de transporte", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // 3. Eventos para Canjes (ejecutan PACKAGE en Oracle con validación de red)
-        binding.btnCanjearDescuento.setOnClickListener {
-            procesarCanjeIncentivo(idIncentivo = 1)
-        }
-
-        binding.btnCanjearPase.setOnClickListener {
-            procesarCanjeIncentivo(idIncentivo = 2)
-        }
+        binding.btnCanjearDescuento.setOnClickListener { procesarCanjeIncentivo(idIncentivo = 1) }
+        binding.btnCanjearPase.setOnClickListener { procesarCanjeIncentivo(idIncentivo = 2) }
     }
 
     private fun obtenerPuntosServidor() {
-        // Verificar conexión a Internet activa antes de consultar la API
         if (!NetworkUtils.hayConexionInternet(this)) {
             binding.tvPuntosAcumulados.text = "Sin conexión a Internet"
-            Toast.makeText(this, "Se requiere conexión a Internet para sincronizar con Oracle Cloud", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -77,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 val response = RetrofitClient.instance.obtenerPuntos(idUsuarioSesion)
                 if (response.isSuccessful && response.body() != null) {
                     val puntos = response.body()!!.puntos
-                    binding.tvPuntosAcumulados.text = "$puntos pts"
+                    binding.tvPuntosAcumulados.text = "$puntos pts ($nombreUsuarioSesion)"
                 } else {
                     binding.tvPuntosAcumulados.text = "Error al consultar saldo"
                 }
@@ -88,9 +82,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun registrarViajeEnOracle(idMedio: Int, distanciaKm: Double) {
-        // Validar que exista red activa antes de llamar a Oracle Cloud
         if (!NetworkUtils.hayConexionInternet(this)) {
-            Toast.makeText(this, "Sin conexión a Internet. Conéctate para guardar el viaje en la base de datos.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Sin conexión a Internet", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -105,14 +98,8 @@ class MainActivity : AppCompatActivity() {
 
                 val response = RetrofitClient.instance.registrarViaje(request)
                 if (response.isSuccessful) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "¡Viaje de ${String.format("%.2f", distanciaKm)} KM registrado! Trigger ejecutado en Oracle.",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@MainActivity, "¡Viaje registrado! Trigger ejecutado en Oracle.", Toast.LENGTH_LONG).show()
                     binding.etDistancia.text?.clear()
-
-                    // Actualizar los puntos recalculados automáticamente por el Trigger
                     obtenerPuntosServidor()
                 } else {
                     Toast.makeText(this@MainActivity, "Error en la transacción de Oracle", Toast.LENGTH_SHORT).show()
@@ -124,9 +111,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun procesarCanjeIncentivo(idIncentivo: Int) {
-        // Validar red antes de invocar el procedimiento de canje
         if (!NetworkUtils.hayConexionInternet(this)) {
-            Toast.makeText(this, "Sin conexión a Internet. Conéctate para canjear tu recompensa.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Sin conexión a Internet", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -139,11 +125,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "¡Canje exitoso procesado por Package!", Toast.LENGTH_LONG).show()
                     obtenerPuntosServidor()
                 } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "No se pudo procesar (Puntos o Stock insuficiente)",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@MainActivity, "No se pudo procesar (Puntos/Stock insuficiente)", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@MainActivity, "Error de red al procesar canje", Toast.LENGTH_SHORT).show()

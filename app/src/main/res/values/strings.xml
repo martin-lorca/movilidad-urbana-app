@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">EcoMobility</string>
+    <string name="title_login">Iniciar Sesión</string>
+    <string name="title_register">Crear Cuenta</string>
+    <string name="hint_email">Correo Electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_name">Nombre Completo</string>
+    <string name="btn_login">INICIAR SESIÓN</string>
+    <string name="btn_register">REGISTRARSE</string>
+    <string name="btn_go_to_register">¿No tienes cuenta? Regístrate aquí</string>
+    <string name="btn_go_to_login">¿Ya tienes cuenta? Inicia Sesión</string>
+
     <string name="title_app">EcoMobility App</string>
     <string name="subtitle_app">Sistema de Movilidad Sostenible</string>
-    <string name="user_active">Usuario Activo: Ana Gómez</string>
+    <string name="user_active">Usuario Activo: %1$s</string>
     <string name="loading_points">Consultando Puntos...</string>
     <string name="title_register_trip">Registrar Nuevo Viaje</string>
     <string name="hint_distance">Distancia Recorrida (KM)</string>
