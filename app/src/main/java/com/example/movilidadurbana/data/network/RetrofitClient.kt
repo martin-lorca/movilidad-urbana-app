@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     // ⚠️ Reemplaza esta URL por el endpoint base de ORDS en tu Oracle Cloud Autonomous DB
-    private const val BASE_URL = "https://xxxxxx-db2026.adb.sa-santiago-1.oraclecloudapps.com/ords/movilidad/api/"
+    private const val BASE_URL = "https://g154c77c94c6cad-movilidadurbanadb.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/api/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
